@@ -1,4 +1,5 @@
-function exibirUsuarios(usuarios) {
+function exibirUsuarios(usuarios) 
+{
     //var usuario = usuarios[0];
 
     //var elemCodigo = document.getElementById('codigo');
@@ -17,13 +18,15 @@ function exibirUsuarios(usuarios) {
 
 }
 
-function popularTabela(usuarios) {
+function popularTabela(usuarios) 
+{
     for (var i = 0; i < usuarios.length; i++) {
         inserirLinhaTabela(usuarios[i]);
     }
 }
 
-function inserirLinhaTabela(usuario) {
+function inserirLinhaTabela(usuario) 
+{
     var tabela = document.getElementById('tabelaDeUsuarios');
     var numLinhas = tabela.rows.length;
     var novaLinha = tabela.insertRow(numLinhas);
@@ -42,8 +45,8 @@ function inserirLinhaTabela(usuario) {
 
 }
 
-function validarUsuario(acao){
-    
+function validarUsuario(acao)
+{
     var nome = document.getElementById('nome');
     var email = document.getElementById('email');
     var login = document.getElementById('login');
@@ -51,14 +54,55 @@ function validarUsuario(acao){
     var senhaValidar = document.getElementById('senhaValidar');
     
     
-    if(acao == "add"){  
-         
-         alert(nome.value); 
-    }
+    if(acao == "add")
+    {  
+        var dadosValidos = true;
+        
+        if(nome.value == ""){
+            dadosValidos = false;
+            alert("Preencha o campo nome");
+        }  else if(email.value == ""){
+            dadosValidos = false;
+            alert("informe o e-mail");
+        }  else if(login.value == ""){
+            dadosValidos = false;
+            alert("Preencha o campo login");
+        } else {
+            if(senha.value != ""){
+                if (senha.value == senhaValidar.value){
+                    var senhaTxt = senha.value;
+                   
+                    if (senha.value.length < 6){
+                        dadosValidos = false;
+                        alert("A senha precisa ter pelo menos 6 caracteristicas");
+                    }
+                } else {
+                        dadosValidos = false;
+                        alert("As senhas informadas não são iguais");
+                    }
+  } else {
+     dadosValidos = false;
+     alert("Informe a senha");
+  }
+  if (dadosValidos){
+      //enviar para a API
+  var objUsuario = {
+      "nome": nome.value,
+      "email": email.value,
+      "login": login.value,
+      "senha": senha.value
+   };
+   //adicionar um novo usuário
+   adicionarUsuario(objUsuario);
+   
+  }
+ }
     
     return false;
-}
-
-window.onload = function (){
+ }
+ }
+ 
+window.onload = function ()
+{
     getUsuarios();
 };
